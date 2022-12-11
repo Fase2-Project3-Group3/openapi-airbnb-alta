@@ -1,0 +1,815 @@
+openapi: 3.0.0
+info:
+  title: AirBNB Alta App Project
+  description: |
+    Dokumen Open API Aplikasi AirBNB Alta
+  version: "1.0.0"
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    email: apiteam@swagger.io
+  license: 
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: Base URL Server GCP
+    url: http://54.179.170.113:8000
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/YUSNARSETIYADI150403/OPEN-API-DASHBOARD/1.0.0
+  - description: BE servers
+    url: https://{environment}.api.alta.id
+    variables:
+      environment:
+        default: dev
+        enum:
+          - "dev"
+          - "prod"
+tags:
+  - name: Auth
+    description:  API mengelola fitur Auth
+  - name: Users 
+    description: API mengelola fitur User  
+  - name: Properties
+    description:  API mengelola fitur Property  
+  - name: PropertyImages
+    description:  API mengelola fitur Proeprty Image
+  - name: Comments
+    description:  API mengelola fitur Commet
+  - name: Bookings
+    description:  API mengelola fitru Booking
+
+
+paths:
+
+### Endpoint Auth
+  /auth:
+    post:
+      summary: "Login User"
+      tags:
+      - "Auth"
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                "email":
+                  type: string
+                "password":
+                  type: string
+            example:
+              email: "budi123@gmail.com"
+              password: "123"
+      responses:
+        "200":
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithoutData"
+              example:
+                status: "Success"
+                message: "Login Success"
+                data:
+                  id: 1
+                  full_name: "Budiman"
+                  email: "budi123@gmail.com"
+                  phone: "08912391239"
+                  gender: "Male"
+                  profile_image_url: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg"
+                  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2NzAwMzYwMjcsInJvbGUiOiJ1c2VyIiwidXNlcklkIjoxfQ.pT-FmSraUUb8HY73ofYbbt3vFgbej0XaHP9VMas8Q44"
+        "400" :
+          $ref : "#/components/responses/400"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+
+### Endpoint Users
+  /users:
+    post:
+      tags:
+        - Users
+      summary: "Create User" 
+      description: "Register User with Role = User."
+      requestBody:
+        required: true
+        content:
+          "multipart/form-data":
+            schema:
+              $ref: "#/components/schemas/InsertUsersObject"
+            example:
+              full_name: "Budiman"
+              email: "budi123@gmail.com"
+              phone: "08912391239"
+              gender: "Male"
+              file: "9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBhQSERUUExQVFRUWGRwaGBgYGB0dGxkcHxccGxocGxoYHCYgGxojHBsdHy8gJCgpLSwsGB4xNTAqNSYrLCkBCQoKDgwOGg8PGiklHx8pLCwpKSkpKSwpLCkpKSwpLCksKSwsLCkpKSkpLCkpKSwpLCwsKSwsLCksKSkpKSksKf/AABEIAJ0BQQMBIgACEQEDEQH/xAAcAAACAwEBAQEAAAAAAAAAAAAEBQIDBgEABwj/xABFEAACAQIEBAQDBgMGAwcFAAABAhEDIQAEEjEFQVFhBhMicTKBkRRCobHB8CNS0QcVM1Ni4RaS8TRygpOiwtIkQ1RVY//EABoBAAIDA."
+            encoding:
+              file:
+                contentType: image/png, image/jpeg 
+      responses:
+        '201':
+          description: "Success Create User"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithoutData"
+              example:
+                status: "Success"
+                message: "User successfully created" 
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+  
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: "Get User by Id"
+      description: "Get data user using id user at path parameter. Only return 1 data."
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id user to get data"
+          required: true
+          in: path
+          schema:
+            description: "Id user 1"
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: "Success Get User by Id"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithData"
+              example:
+                  status: "Success"
+                  message: "Success Get User by Id"
+                  data:
+                    id: 1
+                    full_name: "Budiman"
+                    email: "budi123@gmail.com"
+                    phone: "08912391239"
+                    gender: "Male"
+                    profile_image_url: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" 
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+    put:
+      tags:
+        - Users
+      summary: "Update User"
+      description: "Update User using request body and using id for reference at path parameter."
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id user to update data"
+          required: true
+          in: path
+          schema:
+            description: "Id user 1"
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          "multipart/form-data":
+            schema:
+              $ref: "#/components/schemas/EditUsersObject"
+            example:
+              full_name: "Budiman"
+              email: "budi123@gmail.com"
+              phone: "08912391239"
+              gender: "Male"
+              file: "9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBhQSERUUExQVFRUWGRwaGBgYGB0dGxkcHxccGxocGxoYHCYgGxojHBsdHy8gJCgpLSwsGB4xNTAqNSYrLCkBCQoKDgwOGg8PGiklHx8pLCwpKSkpKSwpLCkpKSwpLCksKSwsLCkpKSkpLCkpKSwpLCwsKSwsLCksKSkpKSksKf/AABEIAJ0BQQMBIgACEQEDEQH/xAAcAAACAwEBAQEAAAAAAAAAAAAEBQIDBgEABwj/xABFEAACAQIEBAQDBgMGAwcFAAABAhEDIQAEEjEFQVFhBhMicTKBkRRCobHB8CNS0QcVM1Ni4RaS8TRygpOiwtIkQ1RVY//EABoBAAIDA."
+            encoding:
+              file:
+                contentType: image/png, image/jpeg 
+      responses:
+        '200':
+          description: "Success update User"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithoutData" 
+              example:
+                  status: "Success"
+                  message: "Success Update user."
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+
+    delete:
+      tags:
+        - Users
+      summary: "Delete User"
+      description: "Delete User using id at path parameter as reference."
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id user to delete data."
+          required: true
+          in: path
+          schema:
+            description: "Id user 1"
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: "Success Delete User."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithoutData" 
+              example:
+                status: "Success"
+                message: "Success Delete user"
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+
+
+####################################
+#  COMPONENTS
+####################################
+components:
+  securitySchemes:
+    JWTAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "JWT Token that generated after login."
+
+  schemas:
+
+### User Schemas
+    "GetUsersObject":
+      type: object
+      properties:
+        "id":
+          type: integer
+        "full_name":
+          type: string
+        "email":
+          type: string
+        "phone":
+          type: string
+        "gender":
+          type: string
+        "profile_image_url":
+          type: string    
+    "ArrayUsersObj":
+      type: array
+      items :
+        $ref: "#/components/schemas/GetUsersObject"
+    "InsertUsersObject":
+      type: object
+      properties:
+        "full_name":
+          type: string
+        "email":
+          type: string
+        "password":
+          type: string
+        "phone":
+          type: string
+        "gender":
+          type: string
+        "file":
+          type: string  
+          format: binary
+    "EditUsersObject":
+      type: object
+      properties:
+        "full_name":
+          type: string
+        "email":
+          type: string
+        "password":
+          type: string
+        "phone":
+          type: string
+        "gender":
+          type: string
+        "file":
+          type: string  
+          format: binary
+
+### Property Schemas
+    "GetPropertiesListObject":
+      type: object
+      properties:
+        "id":
+          type: integer
+        "property_name":
+          type: string
+        "price_per_night":
+          type: string     
+        "city":
+          type: string
+        "facilities":
+          type: string
+        "rating_average":
+          type: string
+    "ArrayPropertiesListObj":
+      type: array
+      items :
+        $ref: "#/components/schemas/GetPropertiesListObject"
+    "GetPropertiesObject":
+      type: object
+      properties:
+        "id":
+          type: integer
+        "property_name":
+          type: string
+        "price_per_night":
+          type: string
+        "description":
+          type: string
+        "address":
+          type: string
+        "city":
+          type: string
+        "contact_number":
+          type: string
+        "guest_capacity":
+          type: string
+        "facilities":
+          type: string
+        "facility_bedroom_qty":
+          type: string
+        "facility_beds_qty":
+          type: string
+        "facility_bathroom_qty":
+          type: string
+        "facility_kitchen_available":
+          type: string
+        "facility_wifi_available":
+          type: string
+        "booking_status":
+          type: string
+        "property_type":
+          type: string
+        "rating_average":
+          type: string
+        "user_id":
+          type: integer
+        "property_images":
+          items:
+            $ref: "#/components/schemas/ArrayPropertyImagesObj"  
+        "comments":
+          items:
+            $ref: "#/components/schemas/ArrayCommentsObj"  
+    "ArrayPropertiesObj":
+      type: array
+      items :
+        $ref: "#/components/schemas/GetPropertiesObject"
+    "InsertPropertiesObject":
+      type: object
+      properties:
+        "property_name":
+          type: string
+        "price_per_night":
+          type: string
+        "description":
+          type: string
+        "address":
+          type: string
+        "city":
+          type: string
+        "contact_number":
+          type: string
+        "guest_capacity":
+          type: string
+        "facilities":
+          type: string
+        "facility_bedroom_qty":
+          type: string
+        "facility_beds_qty":
+          type: string
+        "facility_bathroom_qty":
+          type: string
+        "facility_kitchen_available":
+          type: string
+        "facility_wifi_available":
+          type: string
+        "booking_status":
+          type: string
+        "property_type":
+          type: string
+        "rating_average":
+          type: string
+        "user_id":
+          type: integer
+        "property_images":
+          items:
+            $ref: "#/components/schemas/ArrayPropertyImagesObj"  
+        "comments":
+          items:
+            $ref: "#/components/schemas/ArrayCommentsObj"  
+    "EditPropertiesObject":
+      type: object
+      properties:
+        "id":
+          type: integer
+        "property_name":
+          type: string
+        "price_per_night":
+          type: string
+        "description":
+          type: string
+        "address":
+          type: string
+        "city":
+          type: string
+        "contact_number":
+          type: string
+        "guest_capacity":
+          type: string
+        "facilities":
+          type: string
+        "facility_bedroom_qty":
+          type: string
+        "facility_beds_qty":
+          type: string
+        "facility_bathroom_qty":
+          type: string
+        "facility_kitchen_available":
+          type: string
+        "facility_wifi_available":
+          type: string
+        "booking_status":
+          type: string
+        "property_type":
+          type: string
+        "rating_average":
+          type: string
+        "user_id":
+          type: integer
+        "property_images":
+          items:
+            $ref: "#/components/schemas/ArrayPropertyImagesObj"  
+        "comments":
+          items:
+            $ref: "#/components/schemas/ArrayCommentsObj"  
+
+### PropertyImages Schemas
+    "GetPropertyImagesObject":
+      type: object
+      properties:
+        "id":
+          type: integer
+        "title":
+          type: string
+        "image_url":
+          type: string
+        "property_id":
+          type: integer
+    "ArrayPropertyImagesObj":
+      type: array
+      items :
+        $ref: "#/components/schemas/GetPropertyImagesObject"
+    "InsertPropertyImagesObject":
+      type: object
+      properties:
+        "title":
+          type: string
+        "file":
+          type: string  
+          format: binary
+        "property_id":
+          type: integer 
+    "EditPropertyImagesObject":
+      type: object
+      properties:
+        "title":
+          type: string
+        "file":
+          type: string  
+          format: binary
+        "property_id":
+          type: integer 
+
+### Comments Schemas
+    "GetCommentsObject":
+      type: object
+      properties:
+        "id":
+          type: integer
+        "title":
+          type: string
+        "comment":
+          type: string
+        "rating":
+          type: integer
+        "created_at":
+          type: string
+        "updated_at":
+          type: string
+        "user_id":
+          type: integer
+        "property_id":
+          type: integer
+    "ArrayCommentsObj":
+      type: array
+      items :
+        $ref: "#/components/schemas/GetCommentsObject"
+    "InsertCommentsObject":
+      type: object
+      properties:
+        "title":
+          type: string
+        "comment":
+          type: string
+        "rating":
+          type: integer
+        "created_at":
+          type: string
+        "updated_at":
+          type: string
+        "user_id":
+          type: integer
+        "property_id":
+          type: integer
+    "EditCommentsObject":
+      type: object
+      properties:
+        "title":
+          type: string
+        "comment":
+          type: string
+        "rating":
+          type: integer
+        "created_at":
+          type: string
+        "updated_at":
+          type: string
+        "user_id":
+          type: integer
+        "property_id":
+          type: integer
+
+### Bookings Schemas
+    "GetBookingsObject":
+      type: object
+      properties:
+        "id":
+          type: integer
+        "checkin_date":
+          type: string
+        "checkout_date":
+          type: string
+        "price_per_night":
+          type: integer
+        "gross_ammount":
+          type: string
+        "booking_status":
+          type: string
+        "user_id":
+          type: integer
+        "property_id":
+          type: integer
+    "ArrayBookingsObj":
+      type: array
+      items :
+        $ref: "#/components/schemas/GetBookingsObject"
+    "InsertBookingsObject":
+      type: object
+      properties:
+        "checkin_date":
+          type: string
+        "checkout_date":
+          type: string
+        "price_per_night":
+          type: integer
+        "gross_ammount":
+          type: string
+        "booking_status":
+          type: string
+        "user_id":
+          type: integer
+        "property_id":
+          type: integer
+    "EditBookingsObject":
+      type: object
+      properties:
+        "checkin_date":
+          type: string
+        "checkout_date":
+          type: string
+        "price_per_night":
+          type: integer
+        "gross_ammount":
+          type: string
+        "booking_status":
+          type: string
+        "user_id":
+          type: integer
+        "property_id":
+          type: integer
+
+### Other Schemas
+    "ResponseWithoutData":
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    "ResponseWithData":
+      type: object
+      properties:
+        status:
+          type: string
+        message: 
+          type: string
+        data:
+          type: object
+    "SuccesArrayUsersResult":
+      type: object
+      properties:
+        status:
+          type: string
+        message: 
+          type: string
+        data:
+          type: array
+          items : 
+            $ref: "#/components/schemas/ArrayUsersObj"
+    "SuccesArrayPropertiesResult":
+      type: object
+      properties:
+        status:
+          type: string
+        message: 
+          type: string
+        data:
+          type: array
+          items : 
+            $ref: "#/components/schemas/ArrayPropertiesObj" 
+    "SuccesArrayPropertiesListResult":
+      type: object
+      properties:
+        status:
+          type: string
+        message: 
+          type: string
+        data:
+          type: array
+          items : 
+            $ref: "#/components/schemas/ArrayPropertiesListObj" 
+    "SuccessPropertyImagesResult":
+      type: object
+      properties:
+        status:
+          type: string
+        message: 
+          type: string
+        data:
+          $ref: "#/components/schemas/GetPropertyImagesObject" 
+    "SuccesArrayPropertyImagesResult":
+      type: object
+      properties:
+        status:
+          type: string
+        message: 
+          type: string
+        data:
+          type: array
+          items : 
+            $ref: "#/components/schemas/ArrayPropertyImagesObj" 
+    "SuccessCommentsResult":
+      type: object
+      properties:
+        status:
+          type: string
+        message: 
+          type: string
+        data:
+          $ref: "#/components/schemas/GetCommentsObject" 
+    "SuccesArrayCommentsResult":
+      type: object
+      properties:
+        status:
+          type: string
+        message: 
+          type: string
+        data:
+          type: array
+          items : 
+            $ref: "#/components/schemas/ArrayCommentsObj" 
+    "SuccessBookingsResult":
+      type: object
+      properties:
+        status:
+          type: string
+        message: 
+          type: string
+        data:
+          $ref: "#/components/schemas/GetBookingsObject" 
+    "SuccesArrayBookingsResult":
+      type: object
+      properties:
+        status:
+          type: string
+        message: 
+          type: string
+        data:
+          type: array
+          items : 
+            $ref: "#/components/schemas/ArrayBookingsObj" 
+
+### Responses Schemas
+  responses:
+    '200':
+      description: "Success Process Data"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message: 
+                type: string
+              data:
+                type: object
+    '201':
+      description: "Success Create Data"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message: 
+                type: string
+              data:
+                type: object
+    '400':
+      description: "Wrong Request From User"
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: "Process Failed. Please check your input."
+    '401':
+      description: "Authorization information is missing or invalid."
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: "Process Failed. User not authorized for this request."
+    '404':
+      description: "Page not found or wrong url. Please check again."
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: "Process Failed. User not authorized for this request."
+    '500':
+      description: "Error process on server"
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: "Process Failed. Please check server."

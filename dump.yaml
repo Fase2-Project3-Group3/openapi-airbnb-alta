@@ -1,0 +1,62 @@
+{
+  "status": "Success",
+  "message": "Success get mentee by id",
+  "data": {
+    "id": 1,
+    "name": "Budiman",
+    "status": "Active",
+    "gender": "Male",
+    "nickname": "Budi",
+    "address": "Jl. Srengseng Sawah No.17, RW.12, Srengseng Sawah, Kec. Jagakarsa, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12630",
+    "home_address": "Jl. Srengseng Sawah No.17, RW.12, Srengseng Sawah, Kec. Jagakarsa, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12630",
+    "email": "budi@mail.com",
+    "telegram": "budidoremi",
+    "discord": "budidiscord",
+    "phone": "08123989907",
+    "emergency_name": "YantoFebrian",
+    "emergency_phone": "08456938383",
+    "emergency_status": "Orang Tua",
+    "education_type": "Informatic",
+    "education_major": "Sarjana",
+    "education_graduate": "2021",
+    "id_class": 1,
+    "property_images":[
+      {
+        "id": 1,
+        "title": "Dapur",
+        "image_url": "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user"
+      },      
+      {
+        "id": 2,
+        "title": "Ruang Keluarga",
+        "image_url": "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user"
+      },      
+      {
+        "id": 3,
+        "title": "Teras",
+        "image_url": "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user"
+      }      
+    ],
+    "comments": [
+      {
+        "id": 1,
+        "title": "Interview",
+        "fullname_user": "Ismail",
+        "create_date": "03 November 2022",
+        "feedback": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla interdum convallis tortor eget scelerisque. Sed diam risus, tincidunt at lacinia a, hendrerit at massa. Maecenas tincidunt convallis rhoncus. Maecenas augue tellus, interdum non nulla a, bibendum dapibus nulla. Nullam at lorem diam. Integer nec urna commodo, gravida est fringilla, ultricies velit. Suspendisse potenti.",
+        "status": "None",
+        "id_mentee": 1,
+        "id_user": 1
+      },
+      {
+        "id": 2,
+        "title": "Acceptance",
+        "fullname_user": "Yovan",
+        "create_date": "03 December 2022",
+        "feedback": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla interdum convallis tortor eget scelerisque. Sed diam risus, tincidunt at lacinia a, hendrerit at massa. Maecenas tincidunt convallis rhoncus. Maecenas augue tellus, interdum non nulla a, bibendum dapibus nulla. Nullam at lorem diam. Integer nec urna commodo, gravida est fringilla, ultricies velit. Suspendisse potenti.",
+        "status": "Join class",
+        "id_mentee": 1,
+        "id_user": 3
+      }
+    ]
+  }
