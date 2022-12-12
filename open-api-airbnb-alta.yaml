@@ -487,6 +487,8 @@ paths:
           $ref : "#/components/responses/404"  
         '500':
           $ref: "#/components/responses/500"
+
+  ### Endpoint Property Images 
   /property_images:
     post:
       tags:
@@ -500,9 +502,13 @@ paths:
             schema:
               $ref: "#/components/schemas/InsertPropertyImagesObject"
             example:
-              title : 
-              file: 
-              properties_id:
+              title : Nestled amongst the giant redwoods
+              file: "9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBhQSERUUExQVFRUWGRwaGBgYGB0dGxkcHxccGxocGxoYHCYgGxojHBsdHy8gJCgpLSwsGB4xNTAqNSYrLCkBCQoKDgwOGg8PGiklHx8pLCwpKSkpKSwpLCkpKSwpLCksKSwsLCkpKSkpLCkpKSwpLCwsKSwsLCksKSkpKSksKf/AABEIAJ0BQQMBIgACEQEDEQH/xAAcAAACAwEBAQEAAAAAAAAAAAAEBQIDBgEABwj/xABFEAACAQIEBAQDBgMGAwcFAAABAhEDIQAEEjEFQVFhBhMicTKBkRRCobHB8CNS0QcVM1Ni4RaS8TRygpOiwtIkQ1RVY//EABoBAAIDA."
+              properties_id: 1
+            encoding:
+              file:
+                contentType: image/png, image/jpeg 
+             
       responses:
         '201':
           description: "Success Add Property image"
@@ -521,75 +527,43 @@ paths:
           $ref : "#/components/responses/404"  
         '500':
           $ref: "#/components/responses/500"
+  
+  /property_images/{id}:
     get:
       tags:
         - PropertyImages
-      summary: "Get All Property images"
-      description: "Get All image from related property."
+      summary: "Get Property imagesby Id"
+      description: "Get images from properties using id properties at path parameter. Only return 1 data."
       security:
         - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id properties images to get data"
+          required: true
+          in: path
+          schema:
+            description: "Id properties images 1"
+            type: integer
+            example: 1
       responses:
         '200':
           description: "Success Get Property images by Id"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseWithData"
-              example:
-                  status: "Success"
-                  message: "Success Get Property by Id"
-                  data:
-                    id: 1
-                    full_name: "Budiman"
-                    email: "budi123@gmail.com"
-                    phone: "08912391239"
-                    gender: "Male"
-                    profile_image_url: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" 
-                    is_hosting: "yes"
-        "400" :
-          $ref : "#/components/responses/400"  
-        "401" :
-          $ref : "#/components/responses/401"  
-        "404" :
-          $ref : "#/components/responses/404"  
-        '500':
-          $ref: "#/components/responses/500"
-  
-  /property_images/{id}:
-    get:
-      tags:
-        - PropertyImages
-      summary: "Get Properties by Id"
-      description: "Get data properties using id properties at path parameter. Only return 1 data."
-      security:
-        - JWTAuth: []
-      parameters:
-        - name: id
-          description: "Id properties to get data"
-          required: true
-          in: path
-          schema:
-            description: "Id properties 1"
-            type: integer
-            example: 1
-      responses:
-        '200':
-          description: "Success Get Properties by Id"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseWithData"
+                $ref: "#/components/schemas/SuccesArrayPropertyImagesResult"
               example:
                   status: "Success"
                   message: "Success Get Properties by Id"
                   data:
-                    id: 1
-                    full_name: "Budiman"
-                    email: "budi123@gmail.com"
-                    phone: "08912391239"
-                    gender: "Male"
-                    profile_image_url: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" 
-                    is_hosting: "yes"
+                    - id: 1
+                      title: Nestled amongst the giant redwoods
+                      properties_id: 1
+                      file: "https://a0.muscache.com/im/pictures/83d8a770-d438-4de1-a4ea-53e72a490402.jpg?im_w=1200"
+                    - id: 2
+                      title: Relax in the hammock for 2 in the shade of giant redwoods.
+                      properties_id: 1
+                      file: "https://a0.muscache.com/im/pictures/8ed0bfa0-6df8-4f4f-ab96-cb670a2713df.jpg?im_w=1200"  
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -619,26 +593,24 @@ paths:
         content:
           "multipart/form-data":
             schema:
-              $ref: "#/components/schemas/EditUsersObject"
+              $ref: "#/components/schemas/EditPropertyImagesObject"
             example:
-              full_name: "Budiman"
-              email: "budi123@gmail.com"
-              phone: "08912391239"
-              gender: "Male"
+              title: Private guesthouse in the redwoods.
+              properties_id: 1
               file: "9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBhQSERUUExQVFRUWGRwaGBgYGB0dGxkcHxccGxocGxoYHCYgGxojHBsdHy8gJCgpLSwsGB4xNTAqNSYrLCkBCQoKDgwOGg8PGiklHx8pLCwpKSkpKSwpLCkpKSwpLCksKSwsLCkpKSkpLCkpKSwpLCwsKSwsLCksKSkpKSksKf/AABEIAJ0BQQMBIgACEQEDEQH/xAAcAAACAwEBAQEAAAAAAAAAAAAEBQIDBgEABwj/xABFEAACAQIEBAQDBgMGAwcFAAABAhEDIQAEEjEFQVFhBhMicTKBkRRCobHB8CNS0QcVM1Ni4RaS8TRygpOiwtIkQ1RVY//EABoBAAIDA."
             encoding:
               file:
                 contentType: image/png, image/jpeg 
       responses:
         '200':
-          description: "Success update User"
+          description: "Success update property images"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseWithoutData" 
               example:
                   status: "Success"
-                  message: "Success Update property."
+                  message: "Success Update property images."
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -651,8 +623,177 @@ paths:
     delete:
       tags:
         - PropertyImages
-      summary: "Delete Property"
-      description: "Delete Property using id at path parameter as reference."
+      summary: "Delete Property Images"
+      description: "Delete Property Images using id at path parameter as reference."
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id property images to delete data."
+          required: true
+          in: path
+          schema:
+            description: "Id property images 1"
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: "Success Delete Property Images."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithoutData" 
+              example:
+                status: "Success"
+                message: "Success Delete property images"
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+
+  ### Endpoint Comments
+  /comments:
+    post:
+      tags:
+        - Comments
+      summary: "Insert Comments" 
+      description: "Insert new review for the property ."
+      requestBody:
+        required: true
+        content:
+         application/json:
+            schema:
+              $ref: "#/components/schemas/InsertCommentsObject"
+            example:
+              title: review hotel
+              comment: its such a nice hotel and give me some extraordinary experience here. the food was delicious, the view was nice and the price so much affordable
+              rating: 5
+              user_id: 1
+              property_id: 1
+          
+      responses:
+        '201':
+          description: "Success Insert new comment"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithoutData"
+              example:
+                status: "Success"
+                message: "Comments successfully created" 
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+  
+  /comments/{id}:
+    get:
+      tags:
+        - Comments
+      summary: "Get Comments by Id"
+      description: "Get review related to the properties using id properties at path parameter. Only return 1 data."
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id properties to get data"
+          required: true
+          in: path
+          schema:
+            description: "Id properties 1"
+            type: integer
+            example: 1
+
+      responses:
+        '200':
+          description: "Success Get Comments Properties by Id"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccesArrayCommentsResult"
+              example:
+                  status: "Success"
+                  message: "Success GetComments Properties by Id"
+                  data:
+                    - id : 1
+                      title : review hotel kencana
+                      comment : hotel kencana was such a nice place and affordable price
+                      rating: 5
+                      user_name : Budi
+                    - id : 2
+                      title : review Kencana hotel
+                      comment : mantap
+                      rating: 4
+                      user_name: Andi 
+
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+    put:
+      tags:
+        - Comments
+      summary: "Update Comments "
+      description: "Update comments for the property using request body and using id for reference at path parameter."
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id properties to update data"
+          required: true
+          in: path
+          schema:
+            description: "Id user 1"
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          "multipart/form-data":
+            schema:
+              $ref: "#/components/schemas/EditCommentsObject"
+            example:
+              title: Review guesthouse bali
+              comment: this is such a nice place to go, very very comfortable
+              rating : 5
+              user_id: 1
+              property_id: 1
+      responses:
+        '200':
+          description: "Success update Comments"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithoutData" 
+              example:
+                  status: "Success"
+                  message: "Success Update Comment."
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+
+    delete:
+      tags:
+        - Comments
+      summary: "Delete Comment"
+      description: "Delete comment property using id at path parameter as reference."
       security:
         - JWTAuth: []
       parameters:
