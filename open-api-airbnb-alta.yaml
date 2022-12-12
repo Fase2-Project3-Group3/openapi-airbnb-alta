@@ -13,9 +13,9 @@ info:
 servers:
   # Added by API Auto Mocking Plugin
   - description: Base URL Server GCP
-    url: http://54.179.170.113:8000
+    url: http://34.136.159.229:8001
   - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/YUSNARSETIYADI150403/OPEN-API-DASHBOARD/1.0.0
+    url: https://virtserver.swaggerhub.com/ACHMADQIZWINI4_1/GP3_Kelompok3/1.0.0
   - description: BE servers
     url: https://{environment}.api.alta.id
     variables:
@@ -950,7 +950,7 @@ paths:
                 $ref: "#/components/schemas/ResponseWithoutData" 
               example:
                   status: "Success"
-                  message: "Success Update Comment."
+                  message: "Success Update Booking."
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -985,7 +985,7 @@ paths:
                 $ref: "#/components/schemas/ResponseWithoutData" 
               example:
                 status: "Success"
-                message: "Success Delete property"
+                message: "Success Delete booking property"
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
