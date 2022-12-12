@@ -32,9 +32,9 @@ tags:
   - name: Properties
     description:  API mengelola fitur Property  
   - name: PropertyImages
-    description:  API mengelola fitur Proeprty Image
+    description:  API mengelola fitur Property Image
   - name: Comments
-    description:  API mengelola fitur Commet
+    description:  API mengelola fitur Comment
   - name: Bookings
     description:  API mengelola fitru Booking
 
@@ -78,6 +78,7 @@ paths:
                   phone: "08912391239"
                   gender: "Male"
                   profile_image_url: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg"
+                  is_hosting: "yes"
                   token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2NzAwMzYwMjcsInJvbGUiOiJ1c2VyIiwidXNlcklkIjoxfQ.pT-FmSraUUb8HY73ofYbbt3vFgbej0XaHP9VMas8Q44"
         "400" :
           $ref : "#/components/responses/400"  
@@ -161,6 +162,185 @@ paths:
                     phone: "08912391239"
                     gender: "Male"
                     profile_image_url: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" 
+                    is_hosting: "yes"
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+    put:
+      tags:
+        - Users
+      summary: "Update User"
+      description: "Update User using request body and using id for reference at path parameter."
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id user to update data"
+          required: true
+          in: path
+          schema:
+            description: "Id user 1"
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          "multipart/form-data":
+            schema:
+              $ref: "#/components/schemas/EditUsersObject"
+            example:
+              full_name: "Budiman"
+              email: "budi123@gmail.com"
+              phone: "08912391239"
+              gender: "Male"
+              file: "9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBhQSERUUExQVFRUWGRwaGBgYGB0dGxkcHxccGxocGxoYHCYgGxojHBsdHy8gJCgpLSwsGB4xNTAqNSYrLCkBCQoKDgwOGg8PGiklHx8pLCwpKSkpKSwpLCkpKSwpLCksKSwsLCkpKSkpLCkpKSwpLCwsKSwsLCksKSkpKSksKf/AABEIAJ0BQQMBIgACEQEDEQH/xAAcAAACAwEBAQEAAAAAAAAAAAAEBQIDBgEABwj/xABFEAACAQIEBAQDBgMGAwcFAAABAhEDIQAEEjEFQVFhBhMicTKBkRRCobHB8CNS0QcVM1Ni4RaS8TRygpOiwtIkQ1RVY//EABoBAAIDA."
+            encoding:
+              file:
+                contentType: image/png, image/jpeg 
+      responses:
+        '200':
+          description: "Success update User"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithoutData" 
+              example:
+                  status: "Success"
+                  message: "Success Update user."
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+
+    delete:
+      tags:
+        - Users
+      summary: "Delete User"
+      description: "Delete User using id at path parameter as reference."
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id user to delete data."
+          required: true
+          in: path
+          schema:
+            description: "Id user 1"
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: "Success Delete User."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithoutData" 
+              example:
+                status: "Success"
+                message: "Success Delete user"
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+
+### Endpoint Properties
+  /properties:
+    post:
+      tags:
+        - Properties
+      summary: "Create Property" 
+      description: "Create new property."
+      requestBody:
+        required: true
+        content:
+          "multipart/form-data":
+            schema:
+              $ref: "#/components/schemas/InsertPropertiesObject"
+            example:
+              property_name: "Budiman"
+              price_per_night: "budi123@gmail.com"
+              phone: "08912391239"
+              description: "Male"
+              address: "Male"
+              city: "Male"
+              contact_number: "Male"
+              guest_capacity: "Male"
+              facilities: "Male"
+              booking_status: "Male"
+              property_type: "Male"
+              rating_average: "Male"
+              user_id: "Male"
+              file: "9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBhQSERUUExQVFRUWGRwaGBgYGB0dGxkcHxccGxocGxoYHCYgGxojHBsdHy8gJCgpLSwsGB4xNTAqNSYrLCkBCQoKDgwOGg8PGiklHx8pLCwpKSkpKSwpLCkpKSwpLCksKSwsLCkpKSkpLCkpKSwpLCwsKSwsLCksKSkpKSksKf/AABEIAJ0BQQMBIgACEQEDEQH/xAAcAAACAwEBAQEAAAAAAAAAAAAEBQIDBgEABwj/xABFEAACAQIEBAQDBgMGAwcFAAABAhEDIQAEEjEFQVFhBhMicTKBkRRCobHB8CNS0QcVM1Ni4RaS8TRygpOiwtIkQ1RVY//EABoBAAIDA."
+            encoding:
+              file:
+                contentType: image/png, image/jpeg 
+      responses:
+        '201':
+          description: "Success Create User"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithoutData"
+              example:
+                status: "Success"
+                message: "User successfully created" 
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+  
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: "Get User by Id"
+      description: "Get data user using id user at path parameter. Only return 1 data."
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id user to get data"
+          required: true
+          in: path
+          schema:
+            description: "Id user 1"
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: "Success Get User by Id"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithData"
+              example:
+                  status: "Success"
+                  message: "Success Get User by Id"
+                  data:
+                    id: 1
+                    full_name: "Budiman"
+                    email: "budi123@gmail.com"
+                    phone: "08912391239"
+                    gender: "Male"
+                    profile_image_url: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" 
+                    is_hosting: "yes"
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -284,6 +464,8 @@ components:
           type: string
         "profile_image_url":
           type: string    
+        "is_hosting":
+          type: string    
     "ArrayUsersObj":
       type: array
       items :
@@ -337,6 +519,8 @@ components:
           type: string
         "rating_average":
           type: string
+        "image_thumbnail_url":
+          type: string
     "ArrayPropertiesListObj":
       type: array
       items :
@@ -362,21 +546,13 @@ components:
           type: string
         "facilities":
           type: string
-        "facility_bedroom_qty":
-          type: string
-        "facility_beds_qty":
-          type: string
-        "facility_bathroom_qty":
-          type: string
-        "facility_kitchen_available":
-          type: string
-        "facility_wifi_available":
-          type: string
         "booking_status":
           type: string
         "property_type":
           type: string
         "rating_average":
+          type: string
+        "image_thumbnail_url":
           type: string
         "user_id":
           type: integer
@@ -409,21 +585,13 @@ components:
           type: string
         "facilities":
           type: string
-        "facility_bedroom_qty":
-          type: string
-        "facility_beds_qty":
-          type: string
-        "facility_bathroom_qty":
-          type: string
-        "facility_kitchen_available":
-          type: string
-        "facility_wifi_available":
-          type: string
         "booking_status":
           type: string
         "property_type":
           type: string
         "rating_average":
+          type: string
+        "image_thumbnail_url":
           type: string
         "user_id":
           type: integer
@@ -454,21 +622,13 @@ components:
           type: string
         "facilities":
           type: string
-        "facility_bedroom_qty":
-          type: string
-        "facility_beds_qty":
-          type: string
-        "facility_bathroom_qty":
-          type: string
-        "facility_kitchen_available":
-          type: string
-        "facility_wifi_available":
-          type: string
         "booking_status":
           type: string
         "property_type":
           type: string
         "rating_average":
+          type: string
+        "image_thumbnail_url":
           type: string
         "user_id":
           type: integer
