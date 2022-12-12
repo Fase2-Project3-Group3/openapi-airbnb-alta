@@ -289,14 +289,68 @@ paths:
                 contentType: image/png, image/jpeg 
       responses:
         '201':
-          description: "Success Create User"
+          description: "Success Create Properties"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseWithoutData"
               example:
                 status: "Success"
-                message: "User successfully created" 
+                message: "Properties successfully created" 
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+    get:
+      tags:
+        - Properties
+      summary: "Get All Properties"
+      description: "Get All data properties."
+      security:
+        - JWTAuth: []
+      parameters:
+        - in: query
+          name: "name"
+          schema:
+            type: string
+        - in: query
+          name: "status"
+          schema:
+            type: string
+            enum:
+            - Available
+            - Non-Available 
+        - in: query
+          name: "Property Type"
+          schema:
+            type: string
+            enum:
+            - Guest
+            - Apartement
+            - GuestHouse
+            - House
+      responses:
+        '200':
+          description: "Success Get Property by Id"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithData"
+              example:
+                  status: "Success"
+                  message: "Success Get Property by Id"
+                  data:
+                    id: 1
+                    full_name: "Budiman"
+                    email: "budi123@gmail.com"
+                    phone: "08912391239"
+                    gender: "Male"
+                    profile_image_url: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" 
+                    is_hosting: "yes"
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -306,33 +360,33 @@ paths:
         '500':
           $ref: "#/components/responses/500"
   
-  /users/{id}:
+  /properties/{id}:
     get:
       tags:
-        - Users
-      summary: "Get User by Id"
-      description: "Get data user using id user at path parameter. Only return 1 data."
+        - Properties
+      summary: "Get Properties by Id"
+      description: "Get data properties using id properties at path parameter. Only return 1 data."
       security:
         - JWTAuth: []
       parameters:
         - name: id
-          description: "Id user to get data"
+          description: "Id properties to get data"
           required: true
           in: path
           schema:
-            description: "Id user 1"
+            description: "Id properties 1"
             type: integer
             example: 1
       responses:
         '200':
-          description: "Success Get User by Id"
+          description: "Success Get Properties by Id"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseWithData"
               example:
                   status: "Success"
-                  message: "Success Get User by Id"
+                  message: "Success Get Properties by Id"
                   data:
                     id: 1
                     full_name: "Budiman"
@@ -351,14 +405,14 @@ paths:
           $ref: "#/components/responses/500"
     put:
       tags:
-        - Users
-      summary: "Update User"
-      description: "Update User using request body and using id for reference at path parameter."
+        - Properties
+      summary: "Update Property"
+      description: "Update property using request body and using id for reference at path parameter."
       security:
         - JWTAuth: []
       parameters:
         - name: id
-          description: "Id user to update data"
+          description: "Id properties to update data"
           required: true
           in: path
           schema:
@@ -389,7 +443,7 @@ paths:
                 $ref: "#/components/schemas/ResponseWithoutData" 
               example:
                   status: "Success"
-                  message: "Success Update user."
+                  message: "Success Update property."
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -401,30 +455,190 @@ paths:
 
     delete:
       tags:
-        - Users
-      summary: "Delete User"
-      description: "Delete User using id at path parameter as reference."
+        - Properties
+      summary: "Delete Property"
+      description: "Delete Property using id at path parameter as reference."
       security:
         - JWTAuth: []
       parameters:
         - name: id
-          description: "Id user to delete data."
+          description: "Id property to delete data."
           required: true
           in: path
           schema:
-            description: "Id user 1"
+            description: "Id property 1"
             type: integer
             example: 1
       responses:
         '200':
-          description: "Success Delete User."
+          description: "Success Delete Property."
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseWithoutData" 
               example:
                 status: "Success"
-                message: "Success Delete user"
+                message: "Success Delete property"
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+  /property_images:
+    post:
+      tags:
+        - PropertyImages
+      summary: "Add Property Images" 
+      description: "Add new property Images."
+      requestBody:
+        required: true
+        content:
+          "multipart/form-data":
+            schema:
+              $ref: "#/components/schemas/InsertPropertyImagesObject"
+            example:
+              title : 
+              file: 
+              properties_id:
+      responses:
+        '201':
+          description: "Success Add Property image"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithoutData"
+              example:
+                status: "Success"
+                message: "Properties successfully created" 
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+    get:
+      tags:
+        - PropertyImages
+      summary: "Get All Property images"
+      description: "Get All image from related property."
+      security:
+        - JWTAuth: []
+      responses:
+        '200':
+          description: "Success Get Property images by Id"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithData"
+              example:
+                  status: "Success"
+                  message: "Success Get Property by Id"
+                  data:
+                    id: 1
+                    full_name: "Budiman"
+                    email: "budi123@gmail.com"
+                    phone: "08912391239"
+                    gender: "Male"
+                    profile_image_url: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" 
+                    is_hosting: "yes"
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+  
+  /property_images/{id}:
+    get:
+      tags:
+        - PropertyImages
+      summary: "Get Properties by Id"
+      description: "Get data properties using id properties at path parameter. Only return 1 data."
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id properties to get data"
+          required: true
+          in: path
+          schema:
+            description: "Id properties 1"
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: "Success Get Properties by Id"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithData"
+              example:
+                  status: "Success"
+                  message: "Success Get Properties by Id"
+                  data:
+                    id: 1
+                    full_name: "Budiman"
+                    email: "budi123@gmail.com"
+                    phone: "08912391239"
+                    gender: "Male"
+                    profile_image_url: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" 
+                    is_hosting: "yes"
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+    put:
+      tags:
+        - PropertyImages
+      summary: "Update Property"
+      description: "Update property using request body and using id for reference at path parameter."
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id properties to update data"
+          required: true
+          in: path
+          schema:
+            description: "Id user 1"
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          "multipart/form-data":
+            schema:
+              $ref: "#/components/schemas/EditUsersObject"
+            example:
+              full_name: "Budiman"
+              email: "budi123@gmail.com"
+              phone: "08912391239"
+              gender: "Male"
+              file: "9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBhQSERUUExQVFRUWGRwaGBgYGB0dGxkcHxccGxocGxoYHCYgGxojHBsdHy8gJCgpLSwsGB4xNTAqNSYrLCkBCQoKDgwOGg8PGiklHx8pLCwpKSkpKSwpLCkpKSwpLCksKSwsLCkpKSkpLCkpKSwpLCwsKSwsLCksKSkpKSksKf/AABEIAJ0BQQMBIgACEQEDEQH/xAAcAAACAwEBAQEAAAAAAAAAAAAEBQIDBgEABwj/xABFEAACAQIEBAQDBgMGAwcFAAABAhEDIQAEEjEFQVFhBhMicTKBkRRCobHB8CNS0QcVM1Ni4RaS8TRygpOiwtIkQ1RVY//EABoBAAIDA."
+            encoding:
+              file:
+                contentType: image/png, image/jpeg 
+      responses:
+        '200':
+          description: "Success update User"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithoutData" 
+              example:
+                  status: "Success"
+                  message: "Success Update property."
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -434,6 +648,40 @@ paths:
         '500':
           $ref: "#/components/responses/500"
 
+    delete:
+      tags:
+        - PropertyImages
+      summary: "Delete Property"
+      description: "Delete Property using id at path parameter as reference."
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id property to delete data."
+          required: true
+          in: path
+          schema:
+            description: "Id property 1"
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: "Success Delete Property."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithoutData" 
+              example:
+                status: "Success"
+                message: "Success Delete property"
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
 
 ####################################
 #  COMPONENTS
