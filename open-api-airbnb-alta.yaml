@@ -824,6 +824,176 @@ paths:
         '500':
           $ref: "#/components/responses/500"
 
+### Endpoint Comments
+  /bookings:
+    post:
+      tags:
+        - Bookings
+      summary: "Insert new booking " 
+      description: "Insert new booking for the properties ."
+      requestBody:
+        required: true
+        content:
+         application/json:
+            schema:
+              $ref: "#/components/schemas/InsertBookingsObject"
+            example:
+              checkin_date: 2022-12-12
+              checkout_date: 2022-12-15
+              price_per_night: 1000000
+          
+      responses:
+        '201':
+          description: "Success Insert new booking"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithoutData"
+              example:
+                status: "Success"
+                message: "booking successfully created" 
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+  
+  /bookings/{id}:
+    get:
+      tags:
+        - Bookings
+      summary: "Get booking history by Id"
+      description: "Get booking history related to the properties using id properties at path parameter. Only return 1 data."
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id properties to get data"
+          required: true
+          in: path
+          schema:
+            description: "Id properties 1"
+            type: integer
+            example: 1
+
+      responses:
+        '200':
+          description: "Success Get booking history by Id"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessBookingsResult"
+              example:
+                  status: "Success"
+                  message: "Success GetComments Properties by Id"
+                  data:
+                    - id : 1
+                      checkin_date: 2022-10-10
+                      checkout_date: 2022-10-13
+                      price_per_night: 200000
+                      gross_amount: 600000
+                      booking_status: complete_payment
+                      username: Budi
+                      property_name: Hotel Melati
+                    - id : 1
+                      checkin_date: 2022-11-02
+                      checkout_date: 2022-11-05
+                      price_per_night: 500000
+                      gross_amount: 1500000
+                      booking_status: complete_payment
+                      username: Budi
+                      property_name: Hotel Melati
+
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+    put:
+      tags:
+        - Bookings
+      summary: "Update Booking property"
+      description: "Update booking property using request body and using id for reference at path parameter."
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id properties to update data"
+          required: true
+          in: path
+          schema:
+            description: "Id user 1"
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          "multipart/form-data":
+            schema:
+              $ref: "#/components/schemas/EditBookingsObject"
+            example:
+              checkin_date: 2022-12-12
+              checkout_date: 2022-12-15
+              price_per_night: 1000000
+      responses:
+        '200':
+          description: "Success update Comments"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithoutData" 
+              example:
+                  status: "Success"
+                  message: "Success Update Comment."
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+
+    delete:
+      tags:
+        - Bookings
+      summary: "Delete Booking"
+      description: "Delete booking using id at path parameter as reference."
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id property to delete data."
+          required: true
+          in: path
+          schema:
+            description: "Id property 1"
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: "Success Delete booking property."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithoutData" 
+              example:
+                status: "Success"
+                message: "Success Delete property"
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
 ####################################
 #  COMPONENTS
 ####################################
