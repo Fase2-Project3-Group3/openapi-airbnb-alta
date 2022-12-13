@@ -128,6 +128,83 @@ paths:
         '500':
           $ref: "#/components/responses/500"
   
+    put:
+      tags:
+        - Users
+      summary: "Update User"
+      description: "Update User that hit this endpoint using request body, id user from token."
+      security:
+        - JWTAuth: []
+      requestBody:
+        required: true
+        content:
+          "multipart/form-data":
+            schema:
+              $ref: "#/components/schemas/EditUsersObject"
+            example:
+              full_name: "Budiman"
+              email: "budi123@gmail.com"
+              phone: "08912391239"
+              gender: "Male"
+              file: "9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBhQSERUUExQVFRUWGRwaGBgYGB0dGxkcHxccGxocGxoYHCYgGxojHBsdHy8gJCgpLSwsGB4xNTAqNSYrLCkBCQoKDgwOGg8PGiklHx8pLCwpKSkpKSwpLCkpKSwpLCksKSwsLCkpKSkpLCkpKSwpLCwsKSwsLCksKSkpKSksKf/AABEIAJ0BQQMBIgACEQEDEQH/xAAcAAACAwEBAQEAAAAAAAAAAAAEBQIDBgEABwj/xABFEAACAQIEBAQDBgMGAwcFAAABAhEDIQAEEjEFQVFhBhMicTKBkRRCobHB8CNS0QcVM1Ni4RaS8TRygpOiwtIkQ1RVY//EABoBAAIDA."
+            encoding:
+              file:
+                contentType: image/png, image/jpeg 
+      responses:
+        '200':
+          description: "Success update User"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithoutData" 
+              example:
+                  status: "Success"
+                  message: "Success Update user."
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+
+    delete:
+      tags:
+        - Users
+      summary: "Delete User"
+      description: "Delete User that hit this endpoint using request body, id user from token."
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id user to delete data."
+          required: true
+          in: path
+          schema:
+            description: "Id user 1"
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: "Success Delete User."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithoutData" 
+              example:
+                status: "Success"
+                message: "Success Delete user"
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+
+
   /users/{id}:
     get:
       tags:
@@ -171,82 +248,56 @@ paths:
           $ref : "#/components/responses/404"  
         '500':
           $ref: "#/components/responses/500"
-    put:
+
+  /users/{id}/properties:
+    get:
       tags:
         - Users
-      summary: "Update User"
-      description: "Update User using request body and using id for reference at path parameter."
+      summary: "Get All Properties by id user"
+      description: "Get All data properties by id user."
       security:
         - JWTAuth: []
       parameters:
         - name: id
-          description: "Id user to update data"
+          description: "Id user to get data"
           required: true
           in: path
           schema:
             description: "Id user 1"
             type: integer
             example: 1
-      requestBody:
-        required: true
-        content:
-          "multipart/form-data":
-            schema:
-              $ref: "#/components/schemas/EditUsersObject"
-            example:
-              full_name: "Budiman"
-              email: "budi123@gmail.com"
-              phone: "08912391239"
-              gender: "Male"
-              file: "9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBhQSERUUExQVFRUWGRwaGBgYGB0dGxkcHxccGxocGxoYHCYgGxojHBsdHy8gJCgpLSwsGB4xNTAqNSYrLCkBCQoKDgwOGg8PGiklHx8pLCwpKSkpKSwpLCkpKSwpLCksKSwsLCkpKSkpLCkpKSwpLCwsKSwsLCksKSkpKSksKf/AABEIAJ0BQQMBIgACEQEDEQH/xAAcAAACAwEBAQEAAAAAAAAAAAAEBQIDBgEABwj/xABFEAACAQIEBAQDBgMGAwcFAAABAhEDIQAEEjEFQVFhBhMicTKBkRRCobHB8CNS0QcVM1Ni4RaS8TRygpOiwtIkQ1RVY//EABoBAAIDA."
-            encoding:
-              file:
-                contentType: image/png, image/jpeg 
       responses:
         '200':
-          description: "Success update User"
+          description: "Success Get Data"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseWithoutData" 
+                $ref: "#/components/schemas/GetPropertiesListObject"
               example:
                   status: "Success"
-                  message: "Success Update user."
-        "400" :
-          $ref : "#/components/responses/400"  
-        "401" :
-          $ref : "#/components/responses/401"  
-        "404" :
-          $ref : "#/components/responses/404"  
-        '500':
-          $ref: "#/components/responses/500"
-
-    delete:
-      tags:
-        - Users
-      summary: "Delete User"
-      description: "Delete User using id at path parameter as reference."
-      security:
-        - JWTAuth: []
-      parameters:
-        - name: id
-          description: "Id user to delete data."
-          required: true
-          in: path
-          schema:
-            description: "Id user 1"
-            type: integer
-            example: 1
-      responses:
-        '200':
-          description: "Success Delete User."
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseWithoutData" 
-              example:
-                status: "Success"
-                message: "Success Delete user"
+                  message: "Success Get Property by Id"
+                  data:
+                  - id: 1
+                    property_name: "Aura House 2bds Eco Bamboo House, Pool, River View"
+                    price_per_night: "5614797"
+                    city: "Bali"
+                    facilities: "4 tamu2 kamar tidur2 tempat tidur2 kamar mandi"
+                    rating_average: "4.6"
+                    image_thumbnail_url: "https://a0.muscache.com/im/pictures/e25a9b25-fa98-4160-bfd1-039287bf38b6.jpg?im_w=1200"
+                  - id: 2
+                    property_name: "RUMAH POHON BALIAN dengan kolam renang yang indah"
+                    price_per_night: "1396409"
+                    city: "Bali"
+                    facilities: "2 tamu1 kamar tidur1 tempat tidur1 kamar mandi + ruang toilet"
+                    rating_average: "4.5"
+                    image_thumbnail_url: "https://a0.muscache.com/im/pictures/0b25f6b3-f215-4938-ac81-581eb3929047.jpg?im_w=1200"
+                  - id: 3
+                    property_name: "Kubah - Vila Bambu di Eco Six Bali"
+                    price_per_night: "4500000"
+                    city: "Bali"
+                    facilities: "42 tamu1 kamar tidur1 tempat tidur1 kamar mandi"
+                    rating_average: "4.4"
+                    image_thumbnail_url: "https://a0.muscache.com/im/pictures/4a5c629b-9c92-450e-8d8f-995875798838.jpg?im_w=1200"
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -270,19 +321,14 @@ paths:
             schema:
               $ref: "#/components/schemas/InsertPropertiesObject"
             example:
-              property_name: "Budiman"
-              price_per_night: "budi123@gmail.com"
-              phone: "08912391239"
-              description: "Male"
-              address: "Male"
-              city: "Male"
-              contact_number: "Male"
-              guest_capacity: "Male"
-              facilities: "Male"
-              booking_status: "Male"
-              property_type: "Male"
-              rating_average: "Male"
-              user_id: "Male"
+              property_name: "Aura House 2bds Eco Bamboo House, Pool, River View"
+              price_per_night: "5614797"
+              description: "Aura House adalah rumah bambu eko yang indah & unik yang dibangun di tepi barat Sungai Ayung menghadap ke timur untuk menyaksikan matahari terbit. Aura House terletak 25 menit dari Ubud, dan 35 menit dari Canggu."
+              address: "Abiansemal, Bali, Indonesia"
+              city: "Bali"
+              contact_number: "08211237712"
+              facilities: "4 tamu2 kamar tidur2 tempat tidur2 kamar mandi"
+              property_type: "Guesthouse"
               file: "9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBhQSERUUExQVFRUWGRwaGBgYGB0dGxkcHxccGxocGxoYHCYgGxojHBsdHy8gJCgpLSwsGB4xNTAqNSYrLCkBCQoKDgwOGg8PGiklHx8pLCwpKSkpKSwpLCkpKSwpLCksKSwsLCkpKSkpLCkpKSwpLCwsKSwsLCksKSkpKSksKf/AABEIAJ0BQQMBIgACEQEDEQH/xAAcAAACAwEBAQEAAAAAAAAAAAAEBQIDBgEABwj/xABFEAACAQIEBAQDBgMGAwcFAAABAhEDIQAEEjEFQVFhBhMicTKBkRRCobHB8CNS0QcVM1Ni4RaS8TRygpOiwtIkQ1RVY//EABoBAAIDA."
             encoding:
               file:
@@ -318,39 +364,50 @@ paths:
           schema:
             type: string
         - in: query
-          name: "status"
+          name: "city"
           schema:
             type: string
-            enum:
-            - Available
-            - Non-Available 
         - in: query
-          name: "Property Type"
+          name: "property_type"
           schema:
             type: string
             enum:
-            - Guest
+            - House
             - Apartement
             - GuestHouse
             - House
       responses:
         '200':
-          description: "Success Get Property by Id"
+          description: "Success Get Data"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseWithData"
+                $ref: "#/components/schemas/SuccesArrayPropertiesListResult"
               example:
                   status: "Success"
                   message: "Success Get Property by Id"
                   data:
-                    id: 1
-                    full_name: "Budiman"
-                    email: "budi123@gmail.com"
-                    phone: "08912391239"
-                    gender: "Male"
-                    profile_image_url: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" 
-                    is_hosting: "yes"
+                  - id: 1
+                    property_name: "Aura House 2bds Eco Bamboo House, Pool, River View"
+                    price_per_night: "5614797"
+                    city: "Bali"
+                    facilities: "4 tamu2 kamar tidur2 tempat tidur2 kamar mandi"
+                    rating_average: "4.6"
+                    image_thumbnail_url: "https://a0.muscache.com/im/pictures/e25a9b25-fa98-4160-bfd1-039287bf38b6.jpg?im_w=1200"
+                  - id: 2
+                    property_name: "RUMAH POHON BALIAN dengan kolam renang yang indah"
+                    price_per_night: "1396409"
+                    city: "Bali"
+                    facilities: "2 tamu1 kamar tidur1 tempat tidur1 kamar mandi + ruang toilet"
+                    rating_average: "4.5"
+                    image_thumbnail_url: "https://a0.muscache.com/im/pictures/0b25f6b3-f215-4938-ac81-581eb3929047.jpg?im_w=1200"
+                  - id: 3
+                    property_name: "Kubah - Vila Bambu di Eco Six Bali"
+                    price_per_night: "4500000"
+                    city: "Bali"
+                    facilities: "42 tamu1 kamar tidur1 tempat tidur1 kamar mandi"
+                    rating_average: "4.4"
+                    image_thumbnail_url: "https://a0.muscache.com/im/pictures/4a5c629b-9c92-450e-8d8f-995875798838.jpg?im_w=1200"
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -383,18 +440,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseWithData"
+                $ref: "#/components/schemas/SuccessPropertyResult"
               example:
                   status: "Success"
                   message: "Success Get Properties by Id"
                   data:
                     id: 1
-                    full_name: "Budiman"
-                    email: "budi123@gmail.com"
-                    phone: "08912391239"
-                    gender: "Male"
-                    profile_image_url: "https://preview.keenthemes.com/metronic-v4/theme/assets/pages/media/profile/profile_user.jpg" 
-                    is_hosting: "yes"
+                    property_name: "Aura House 2bds Eco Bamboo House, Pool, River View"
+                    price_per_night: "5614797"
+                    description: "Aura House adalah rumah bambu eko yang indah & unik yang dibangun di tepi barat Sungai Ayung menghadap ke timur untuk menyaksikan matahari terbit. Aura House terletak 25 menit dari Ubud, dan 35 menit dari Canggu."
+                    address: "Abiansemal, Bali, Indonesia"
+                    city: "Bali"
+                    contact_number: "08211237712"
+                    facilities: "4 tamu2 kamar tidur2 tempat tidur2 kamar mandi"
+                    booking_status: "Available"
+                    property_type: "Guesthouse"
+                    rating_average: "4.5"
+                    image_thumbnail_url: "https://a0.muscache.com/im/pictures/4a5c629b-9c92-450e-8d8f-995875798838.jpg?im_w=1200"
+                    user_id: 2
+                    
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -416,7 +480,7 @@ paths:
           required: true
           in: path
           schema:
-            description: "Id user 1"
+            description: "Id properties 1"
             type: integer
             example: 1
       requestBody:
@@ -424,12 +488,16 @@ paths:
         content:
           "multipart/form-data":
             schema:
-              $ref: "#/components/schemas/EditUsersObject"
+              $ref: "#/components/schemas/InsertPropertiesObject"
             example:
-              full_name: "Budiman"
-              email: "budi123@gmail.com"
-              phone: "08912391239"
-              gender: "Male"
+              property_name: "Aura House 2bds Eco Bamboo House, Pool, River View"
+              price_per_night: "5614797"
+              description: "Aura House adalah rumah bambu eko yang indah & unik yang dibangun di tepi barat Sungai Ayung menghadap ke timur untuk menyaksikan matahari terbit. Aura House terletak 25 menit dari Ubud, dan 35 menit dari Canggu."
+              address: "Abiansemal, Bali, Indonesia"
+              city: "Bali"
+              contact_number: "08211237712"
+              facilities: "4 tamu2 kamar tidur2 tempat tidur2 kamar mandi"
+              property_type: "Guesthouse"
               file: "9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBhQSERUUExQVFRUWGRwaGBgYGB0dGxkcHxccGxocGxoYHCYgGxojHBsdHy8gJCgpLSwsGB4xNTAqNSYrLCkBCQoKDgwOGg8PGiklHx8pLCwpKSkpKSwpLCkpKSwpLCksKSwsLCkpKSkpLCkpKSwpLCwsKSwsLCksKSkpKSksKf/AABEIAJ0BQQMBIgACEQEDEQH/xAAcAAACAwEBAQEAAAAAAAAAAAAEBQIDBgEABwj/xABFEAACAQIEBAQDBgMGAwcFAAABAhEDIQAEEjEFQVFhBhMicTKBkRRCobHB8CNS0QcVM1Ni4RaS8TRygpOiwtIkQ1RVY//EABoBAAIDA."
             encoding:
               file:
@@ -487,8 +555,148 @@ paths:
           $ref : "#/components/responses/404"  
         '500':
           $ref: "#/components/responses/500"
+  /properties/{id}/images:
+    get:
+      tags:
+        - Properties
+      summary: "Get Image Properties by Id Properties "
+      description: "Get data images properties using id properties at path parameter."
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id properties to get data"
+          required: true
+          in: path
+          schema:
+            description: "Id properties 1"
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: "Success Get All Images from Properties by Id Property"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccesArrayPropertyImagesResult"
+              example:
+                  status: "Success"
+                  message: "Success Get Properties by Id"
+                  data:
+                    - properties_id: 1
+                      property_name: "Aura House 2bds Eco Bamboo House, Pool, River View"
+                      checkin_date: 20-02-2022
+                      checkout_data: 23-02-2022
+                      booking_status: Available 
+                    - id: 2
+                      title: Relax in the hammock for 2 in the shade of giant redwoods.
+                      properties_id: 1
+                      file: "https://a0.muscache.com/im/pictures/8ed0bfa0-6df8-4f4f-ab96-cb670a2713df.jpg?im_w=1200"  
+                    
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
 
-  ### Endpoint Property Images 
+  /properties/{id}/comments:
+    get:
+      tags:
+        - Properties
+      summary: "Get Properties by Id Properties"
+      description: "Get data comments for properties using id properties at path parameter. "
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id properties to get data comments"
+          required: true
+          in: path
+          schema:
+            description: "Id properties 1"
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: "Success Get Comments Properties by Id"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccesArrayCommentsResult"
+              example:
+                  status: "Success"
+                  message: "Success Get Properties by Id"
+                  data:
+                    - id : 1
+                      title : "review hotel kencana"
+                      comment : "hotel kencana was such a nice place and affordable price"
+                      rating: 5
+                      user_name : "Budi"
+                      user_id: 1
+                      created_at: "22 Januari 2022"
+                    - id : 2
+                      title : "review Kencana hotel"
+                      comment : "mantap"
+                      rating: 4
+                      user_name: "Andi" 
+                      user_id: 2
+                      created_at: "22 Januari 2022"
+                    
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+
+  /properties/{id}/availbility:
+    get:
+      tags:
+        - Properties
+      summary: "Check availbility for Properties by Id properties"
+      description: "Check availbility from checkin and checkout date for  properties using id properties at path parameter."
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id
+          description: "Id properties to get data"
+          required: true
+          in: path
+          schema:
+            description: "Id properties 1"
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: "Success Check Availbility"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseWithData"
+              example:
+                  status: "Success"
+                  message: "Success Check Availbility"
+                  data:
+                  - properties_id: 1
+                    property_name: "Aura House 2bds Eco Bamboo House, Pool, River View"
+                    checkin_date: 20-02-2022
+                    checkout_data: 23-02-2022
+                    booking_status: Available 
+                    
+        "400" :
+          $ref : "#/components/responses/400"  
+        "401" :
+          $ref : "#/components/responses/401"  
+        "404" :
+          $ref : "#/components/responses/404"  
+        '500':
+          $ref: "#/components/responses/500"
+
   /property_images:
     post:
       tags:
@@ -518,7 +726,7 @@ paths:
                 $ref: "#/components/schemas/ResponseWithoutData"
               example:
                 status: "Success"
-                message: "Properties successfully created" 
+                message: "Properties Image successfully created" 
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -532,7 +740,7 @@ paths:
     get:
       tags:
         - PropertyImages
-      summary: "Get Property imagesby Id"
+      summary: "Get Property images by Id"
       description: "Get images from properties using id properties at path parameter. Only return 1 data."
       security:
         - JWTAuth: []
@@ -551,19 +759,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SuccesArrayPropertyImagesResult"
+                $ref: "#/components/schemas/SuccessPropertyImagesResult"
               example:
                   status: "Success"
-                  message: "Success Get Properties by Id"
+                  message: "Success Get Properties Image by Id"
                   data:
-                    - id: 1
-                      title: Nestled amongst the giant redwoods
-                      properties_id: 1
-                      file: "https://a0.muscache.com/im/pictures/83d8a770-d438-4de1-a4ea-53e72a490402.jpg?im_w=1200"
-                    - id: 2
-                      title: Relax in the hammock for 2 in the shade of giant redwoods.
-                      properties_id: 1
-                      file: "https://a0.muscache.com/im/pictures/8ed0bfa0-6df8-4f4f-ab96-cb670a2713df.jpg?im_w=1200"  
+                    id: 1
+                    title: Nestled amongst the giant redwoods
+                    properties_id: 1
+                    file: "https://a0.muscache.com/im/pictures/83d8a770-d438-4de1-a4ea-53e72a490402.jpg?im_w=1200"
+
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -603,7 +808,7 @@ paths:
                 contentType: image/png, image/jpeg 
       responses:
         '200':
-          description: "Success update property images"
+          description: "Success update property image"
           content:
             application/json:
               schema:
@@ -711,7 +916,6 @@ paths:
             description: "Id properties 1"
             type: integer
             example: 1
-
       responses:
         '200':
           description: "Success Get Comments Properties by Id"
@@ -721,19 +925,15 @@ paths:
                 $ref: "#/components/schemas/SuccesArrayCommentsResult"
               example:
                   status: "Success"
-                  message: "Success GetComments Properties by Id"
+                  message: "Success Get Comments Propeties by Id"
                   data:
-                    - id : 1
-                      title : review hotel kencana
-                      comment : hotel kencana was such a nice place and affordable price
-                      rating: 5
-                      user_name : Budi
-                    - id : 2
-                      title : review Kencana hotel
-                      comment : mantap
-                      rating: 4
-                      user_name: Andi 
-
+                    id : 1
+                    title : "review hotel kencana"
+                    comment : "hotel kencana was such a nice place and affordable price"
+                    rating: 5
+                    user_name : "Budi"
+                    user_id: 1
+                    created_at: "22 Januari 2022"
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -798,16 +998,16 @@ paths:
         - JWTAuth: []
       parameters:
         - name: id
-          description: "Id property to delete data."
+          description: "Id comment to delete data."
           required: true
           in: path
           schema:
-            description: "Id property 1"
+            description: "Id comment 1"
             type: integer
             example: 1
       responses:
         '200':
-          description: "Success Delete Property."
+          description: "Success Delete Comment."
           content:
             application/json:
               schema:
@@ -861,34 +1061,23 @@ paths:
         '500':
           $ref: "#/components/responses/500"
   
-  /bookings/{id}:
     get:
       tags:
         - Bookings
-      summary: "Get booking history by Id"
+      summary: "Get booking history by Id user"
       description: "Get booking history related to the properties using id properties at path parameter. Only return 1 data."
       security:
         - JWTAuth: []
-      parameters:
-        - name: id
-          description: "Id properties to get data"
-          required: true
-          in: path
-          schema:
-            description: "Id properties 1"
-            type: integer
-            example: 1
-
       responses:
         '200':
-          description: "Success Get booking history by Id"
+          description: "Success Get booking history by Id user"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SuccessBookingsResult"
+                $ref: "#/components/schemas/SuccesArrayBookingsResult"
               example:
                   status: "Success"
-                  message: "Success GetComments Properties by Id"
+                  message: "Success Get Bookings History by Id User"
                   data:
                     - id : 1
                       checkin_date: 2022-10-10
@@ -898,15 +1087,14 @@ paths:
                       booking_status: complete_payment
                       username: Budi
                       property_name: Hotel Melati
-                    - id : 1
+                    - id : 2
                       checkin_date: 2022-11-02
                       checkout_date: 2022-11-05
                       price_per_night: 500000
                       gross_amount: 1500000
                       booking_status: complete_payment
-                      username: Budi
-                      property_name: Hotel Melati
-
+                      username: Andi
+                      property_name: Hotel Mawar
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -915,42 +1103,34 @@ paths:
           $ref : "#/components/responses/404"  
         '500':
           $ref: "#/components/responses/500"
-    put:
+
+  /bookings/{id}:
+    get:
       tags:
         - Bookings
-      summary: "Update Booking property"
-      description: "Update booking property using request body and using id for reference at path parameter."
+      summary: "Get booking history by Id"
+      description: "Get booking history related to the properties using id properties at path parameter. Only return 1 data."
       security:
         - JWTAuth: []
-      parameters:
-        - name: id
-          description: "Id properties to update data"
-          required: true
-          in: path
-          schema:
-            description: "Id user 1"
-            type: integer
-            example: 1
-      requestBody:
-        required: true
-        content:
-          "multipart/form-data":
-            schema:
-              $ref: "#/components/schemas/EditBookingsObject"
-            example:
-              checkin_date: 2022-12-12
-              checkout_date: 2022-12-15
-              price_per_night: 1000000
       responses:
         '200':
-          description: "Success update Comments"
+          description: "Success Get booking history by Id"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseWithoutData" 
+                $ref: "#/components/schemas/SuccesArrayBookingsResult"
               example:
                   status: "Success"
-                  message: "Success Update Booking."
+                  message: "Success Get Bookings History by Id User"
+                  data:
+                    id : 1
+                    checkin_date: 2022-10-10
+                    checkout_date: 2022-10-13
+                    price_per_night: 200000
+                    gross_amount: 600000
+                    booking_status: complete_payment
+                    username: Budi
+                    property_name: Hotel Melati
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -960,40 +1140,6 @@ paths:
         '500':
           $ref: "#/components/responses/500"
 
-    delete:
-      tags:
-        - Bookings
-      summary: "Delete Booking"
-      description: "Delete booking using id at path parameter as reference."
-      security:
-        - JWTAuth: []
-      parameters:
-        - name: id
-          description: "Id property to delete data."
-          required: true
-          in: path
-          schema:
-            description: "Id property 1"
-            type: integer
-            example: 1
-      responses:
-        '200':
-          description: "Success Delete booking property."
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseWithoutData" 
-              example:
-                status: "Success"
-                message: "Success Delete booking property"
-        "400" :
-          $ref : "#/components/responses/400"  
-        "401" :
-          $ref : "#/components/responses/401"  
-        "404" :
-          $ref : "#/components/responses/404"  
-        '500':
-          $ref: "#/components/responses/500"
 ####################################
 #  COMPONENTS
 ####################################
@@ -1249,11 +1395,9 @@ components:
           type: integer
         "created_at":
           type: string
-        "updated_at":
+        "user_name":
           type: string
         "user_id":
-          type: integer
-        "property_id":
           type: integer
     "ArrayCommentsObj":
       type: array
@@ -1325,33 +1469,6 @@ components:
           type: string
         "checkout_date":
           type: string
-        "price_per_night":
-          type: integer
-        "gross_ammount":
-          type: string
-        "booking_status":
-          type: string
-        "user_id":
-          type: integer
-        "property_id":
-          type: integer
-    "EditBookingsObject":
-      type: object
-      properties:
-        "checkin_date":
-          type: string
-        "checkout_date":
-          type: string
-        "price_per_night":
-          type: integer
-        "gross_ammount":
-          type: string
-        "booking_status":
-          type: string
-        "user_id":
-          type: integer
-        "property_id":
-          type: integer
 
 ### Other Schemas
     "ResponseWithoutData":
@@ -1381,6 +1498,15 @@ components:
           type: array
           items : 
             $ref: "#/components/schemas/ArrayUsersObj"
+    "SuccessPropertyResult":
+      type: object
+      properties:
+        status:
+          type: string
+        message: 
+          type: string
+        data:
+          $ref: "#/components/schemas/GetPropertiesObject" 
     "SuccesArrayPropertiesResult":
       type: object
       properties:
