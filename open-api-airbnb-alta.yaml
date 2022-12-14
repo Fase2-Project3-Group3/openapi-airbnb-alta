@@ -373,7 +373,10 @@ paths:
           schema:
             type: string
             enum:
+            - Apartement
+            - GuestHouse
             - House
+          example:
             - Apartement
             - GuestHouse
             - House
@@ -386,7 +389,7 @@ paths:
                 $ref: "#/components/schemas/SuccesArrayPropertiesListResult"
               example:
                   status: "Success"
-                  message: "Success Get Property by Id"
+                  message: "Success Get All List Property"
                   data:
                   - id: 1
                     property_name: "Aura House 2bds Eco Bamboo House, Pool, River View"
@@ -454,7 +457,6 @@ paths:
                     city: "Bali"
                     contact_number: "08211237712"
                     facilities: "4 tamu2 kamar tidur2 tempat tidur2 kamar mandi"
-                    booking_status: "Available"
                     property_type: "Guesthouse"
                     rating_average: "4.5"
                     image_thumbnail_url: "https://a0.muscache.com/im/pictures/4a5c629b-9c92-450e-8d8f-995875798838.jpg?im_w=1200"
@@ -584,16 +586,14 @@ paths:
                   status: "Success"
                   message: "Success Get Properties by Id"
                   data:
-                    - properties_id: 1
-                      property_name: "Aura House 2bds Eco Bamboo House, Pool, River View"
-                      checkin_date: 20-02-2022
-                      checkout_data: 23-02-2022
-                      booking_status: Available 
+                    - id: 1
+                      title: Relax in the hammock for 2 in the shade of giant redwoods.
+                      iamge_url: "https://a0.muscache.com/im/pictures/8ed0bfa0-6df8-4f4f-ab96-cb670a2713df.jpg?im_w=1200"  
+                      properties_id: 1
                     - id: 2
                       title: Relax in the hammock for 2 in the shade of giant redwoods.
+                      iamge_url: "https://a0.muscache.com/im/pictures/8ed0bfa0-6df8-4f4f-ab96-cb670a2713df.jpg?im_w=1200"  
                       properties_id: 1
-                      file: "https://a0.muscache.com/im/pictures/8ed0bfa0-6df8-4f4f-ab96-cb670a2713df.jpg?im_w=1200"  
-                    
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -637,14 +637,14 @@ paths:
                       rating: 5
                       user_name : "Budi"
                       user_id: 1
-                      created_at: "22 Januari 2022"
+                      created_at: "2022-02-14"
                     - id : 2
                       title : "review Kencana hotel"
                       comment : "mantap"
                       rating: 4
                       user_name: "Andi" 
                       user_id: 2
-                      created_at: "22 Januari 2022"
+                      created_at: "2022-02-17"
                     
         "400" :
           $ref : "#/components/responses/400"  
@@ -672,6 +672,32 @@ paths:
             description: "Id properties 1"
             type: integer
             example: 1
+        - name: checkin_date
+          in: query
+          description: "Check in date for this property"
+          required: true 
+          schema:
+            type: string
+          examples:
+            "2022-05-03":
+              description: "Check in date. DD-MM-YYYY Format."
+              value: "2022-05-03"
+            "2022-05-15":
+              description: "Check in date. DD-MM-YYYY Format."
+              value: "2022-05-15" 
+        - name: checkout_date
+          in: query
+          description: "Check in date for this property"
+          required: true 
+          schema:
+            type: string
+          examples:
+            "2022-05-09":
+              description: "Chec out date. DD-MM-YYYY Format."
+              value: "2022-05-09"
+            "2022-05-17":
+              description: "Checkout  date. DD-MM-YYYY Format."
+              value: "2022-05-17" 
       responses:
         '200':
           description: "Success Check Availbility"
@@ -685,8 +711,8 @@ paths:
                   data:
                   - properties_id: 1
                     property_name: "Aura House 2bds Eco Bamboo House, Pool, River View"
-                    checkin_date: 20-02-2022
-                    checkout_data: 23-02-2022
+                    checkin_date: 2022-07-03
+                    checkout_data: 2022-07-04
                     booking_status: Available 
                     
         "400" :
@@ -934,7 +960,7 @@ paths:
                     rating: 5
                     user_name : "Budi"
                     user_id: 1
-                    created_at: "22 Januari 2022"
+                    created_at: 2022-01-12
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -1039,9 +1065,9 @@ paths:
             schema:
               $ref: "#/components/schemas/InsertBookingsObject"
             example:
-              checkin_date: 2022-12-12
-              checkout_date: 2022-12-15
-              price_per_night: 1000000
+              checkin_date: 2022-05-11
+              checkout_date: 2022-05-17
+              property_id: 1
           
       responses:
         '201':
@@ -1081,21 +1107,23 @@ paths:
                   message: "Success Get Bookings History by Id User"
                   data:
                     - id : 1
-                      checkin_date: 2022-10-10
-                      checkout_date: 2022-10-13
+                      checkin_date: 2022-05-11
+                      checkout_date: 2022-05-17
                       price_per_night: 200000
                       gross_amount: 600000
                       booking_status: complete_payment
                       username: Budi
                       property_name: Hotel Melati
+                      property_id: 1
                     - id : 2
-                      checkin_date: 2022-11-02
-                      checkout_date: 2022-11-05
+                      checkin_date: 2022-07-21
+                      checkout_date: 2022-07-27
                       price_per_night: 500000
                       gross_amount: 1500000
                       booking_status: complete_payment
                       username: Andi
                       property_name: Hotel Mawar
+                      property_id: 2
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -1125,13 +1153,14 @@ paths:
                   message: "Success Get Bookings History by Id User"
                   data:
                     id : 1
-                    checkin_date: 2022-10-10
-                    checkout_date: 2022-10-13
-                    price_per_night: 200000
-                    gross_amount: 600000
+                    checkin_date: 2022-05-11
+                    checkout_date: 2022-05-17
+                    price_per_night: 500000
+                    gross_amount: 1500000
                     booking_status: complete_payment
-                    username: Budi
-                    property_name: Hotel Melati
+                    username: Andi
+                    property_name: Hotel Mawar
+                    property_id: 2
         "400" :
           $ref : "#/components/responses/400"  
         "401" :
@@ -1287,31 +1316,16 @@ components:
           type: string
         "contact_number":
           type: string
-        "guest_capacity":
-          type: string
         "facilities":
-          type: string
-        "booking_status":
           type: string
         "property_type":
           type: string
-        "rating_average":
-          type: string
-        "image_thumbnail_url":
-          type: string
-        "user_id":
-          type: integer
-        "property_images":
-          items:
-            $ref: "#/components/schemas/ArrayPropertyImagesObj"  
-        "comments":
-          items:
-            $ref: "#/components/schemas/ArrayCommentsObj"  
+        "file":
+          type: string  
+          format: binary
     "EditPropertiesObject":
       type: object
       properties:
-        "id":
-          type: integer
         "property_name":
           type: string
         "price_per_night":
@@ -1324,26 +1338,13 @@ components:
           type: string
         "contact_number":
           type: string
-        "guest_capacity":
-          type: string
         "facilities":
-          type: string
-        "booking_status":
           type: string
         "property_type":
           type: string
-        "rating_average":
-          type: string
-        "image_thumbnail_url":
-          type: string
-        "user_id":
-          type: integer
-        "property_images":
-          items:
-            $ref: "#/components/schemas/ArrayPropertyImagesObj"  
-        "comments":
-          items:
-            $ref: "#/components/schemas/ArrayCommentsObj"  
+        "file":
+          type: string  
+          format: binary 
 
 ### PropertyImages Schemas
     "GetPropertyImagesObject":
@@ -1469,6 +1470,8 @@ components:
         "checkin_date":
           type: string
         "checkout_date":
+          type: string
+        "property_id":
           type: string
 
 ### Other Schemas
